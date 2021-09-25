@@ -1,0 +1,3 @@
+[submodule "hw/matchlib"]
+	path = hw/matchlib
+	url = https://github.com/NVlabs/matchlib.git
