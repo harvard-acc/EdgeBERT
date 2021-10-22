@@ -1,7 +1,7 @@
 EdgeBERT
 ========
 
-EdgeBERT is a HW/SW co-design enabling sentence-level energy optimizations for latency-aware multi-task NLP inference. In this repo, we provide both the software and hardware modelings. For full details, please check out [this paper](https://arxiv.org/pdf/2011.14203.pdf). 
+EdgeBERT is a HW/SW co-design enabling sentence-level energy optimizations for latency-aware multi-task NLP inference. In this repo, we provide both the software and hardware modelings. For full details, please check out [this paper](https://scholar.harvard.edu/files/ttambe/files/edgebert_nlp_micro_2021.pdf). 
 
 <img src="images/edgebert_overview.png" width="3000" height="330">
 
