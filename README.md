@@ -7,8 +7,8 @@ EdgeBERT is a HW/SW co-design enabling sentence-level energy optimizations for l
 
 ## Directory structure
 
-* `hw/cmod/include/*.h` contains header files for functions and classes from EdgeBERT
-* `hw/cmod/<module>` sub-directories contain EdgeBERT SystemC modules
+* `hw/cmod/include/*.h` contains header files for functions and classes used in the EdgeBERT hardware accelerator
+* `hw/cmod/<module>` sub-directories contain EdgeBERT HW SystemC modules
 * `hw/matchlib` library of synthesizable hardware components from NVIDIA
 
 * `sw/Entropy_LUT` contains the entropy datasets and a notebook to train the entropy prediction LUT (as well as a sample pretrained LUT)
