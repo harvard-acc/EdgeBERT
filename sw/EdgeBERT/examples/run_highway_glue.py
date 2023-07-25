@@ -130,12 +130,13 @@ def train(args, train_dataset, model, tokenizer, prune_schedule=None, train_high
     else:
         optimizer_grouped_parameters = [
             {'params': [p for n, p in model.named_parameters() if
-                        ("highway" not in n) and (not any(nd in n for nd in no_decay))],
+                        ("highway" not in n) and (not any(nd in n for nd in no_decay)) and ((not args.fine_tune) or ("bert" in n))],
              'weight_decay': args.weight_decay},
             {'params': [p for n, p in model.named_parameters() if
-                        ("highway" not in n) and (any(nd in n for nd in no_decay))],
+                ("highway" not in n) and (any(nd in n for nd in no_decay)) and ((not args.fine_tune) or ("bert" in n))],
              'weight_decay': 0.0}
         ]
+
     optimizer = AdamW(optimizer_grouped_parameters, lr=args.learning_rate, eps=args.adam_epsilon)
     scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=args.warmup_steps, num_training_steps=t_total)
     if args.fp16:
@@ -157,8 +158,12 @@ def train(args, train_dataset, model, tokenizer, prune_schedule=None, train_high
 
     # Train!
     logger.info("***** Running training *****")
+    if args.fine_tune:
+        logger.info("fine tuning!")
     logger.info("  Num examples = %d", len(train_dataset))
     logger.info("  Num Epochs = %d", args.num_train_epochs)
+    logger.info("  Params with weight decay = %d", len(optimizer_grouped_parameters[0]['params']))
+    logger.info("  Params without weight decay = %d", len(optimizer_grouped_parameters[1]['params']))
     logger.info("  Instantaneous batch size per GPU = %d", args.per_gpu_train_batch_size)
     logger.info("  Total train batch size (w. parallel, distributed & accumulation) = %d",
                    args.train_batch_size * args.gradient_accumulation_steps * (torch.distributed.get_world_size() if args.local_rank != -1 else 1))
@@ -445,6 +450,8 @@ def main():
                              "than this will be truncated, sequences shorter will be padded.")
     parser.add_argument("--do_train", action='store_true',
                         help="Whether to run training.")
+    parser.add_argument("--fine-tune", action='store_true',
+                        help="Whether to finetune the model")
     parser.add_argument("--do_eval", action='store_true',
                         help="Whether to run eval on the dev set.")
     parser.add_argument("--evaluate_during_training", action='store_true',
