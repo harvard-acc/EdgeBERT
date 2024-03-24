@@ -242,10 +242,14 @@ SC_MODULE(ElemAdd)
         break;
       }
       case RSP2: {
-        next_state = SEND;
+        next_state = EADD;
         break;
       }
-      case SEND: { 
+     case EADD: {
+        next_state = SEND:
+        break;
+     }
+     case SEND: { 
         bool is_end = 0;
         UpdateVectorCounter(is_end);
         if (is_end) {
